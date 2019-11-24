@@ -29,13 +29,19 @@ def quick_sort(a, l, r, mode='first'):
     if r - l <= 1:
         return
     pivot_index = get_pivot_index(((l, a[l]), (l + (r-l-1) // 2, a[l + (r-l-1) // 2]), (r - 1, a[r - 1])), mode)
-    swap(a, pivot_index, l)
-    j = l
+    # swap(a, pivot_index, l)
+    j = l - 1
     for i in range(l, r):
-        if a[i] < a[l]:
+        if i == pivot_index:
+            continue
+        if a[i] < a[pivot_index]:
             j += 1
+            j += (j == pivot_index)
+            j = min(j, r - 1)
             swap(a, i, j)
-    swap(a, l, j)
+    if pivot_index > j:
+        j += 1
+    swap(a, pivot_index, j)
     quick_sort(a, l, j, mode)
     quick_sort(a, j + 1, r, mode)
 
